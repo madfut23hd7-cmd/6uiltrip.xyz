@@ -17,21 +17,27 @@ body{
 background:#000;
 color:#00ff88;
 overflow-x:hidden;
+min-height:100vh;
 }
 
-/* MATRIX ONLY BACKGROUND */
+/* MATRIX */
 canvas{
 position:fixed;
 inset:0;
-z-index:-1;
+z-index:-2;
 }
 
-/* LAYOUT */
+/* FULL SCREEN FILL */
 .container{
 max-width:520px;
 margin:auto;
 padding:18px;
 text-align:center;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+gap:14px;
 }
 
 /* TITLE */
@@ -46,18 +52,27 @@ text-shadow:0 0 12px #00ff88;
 white-space:pre;
 font-size:10px;
 line-height:10px;
-margin-top:10px;
 opacity:0.85;
 }
 
 /* CARD */
 .card{
-margin-top:14px;
 padding:14px;
 border:1px solid #00ff88;
 border-radius:12px;
-background:rgba(0,0,0,0.65);
-box-shadow:0 0 10px rgba(0,255,136,0.2);
+background:rgba(0,0,0,0.75);
+box-shadow:0 0 12px rgba(0,255,136,0.2);
+}
+
+/* BUTTON */
+.btn{
+display:block;
+margin-top:10px;
+padding:10px;
+border:1px solid #00ff88;
+color:#00ff88;
+text-decoration:none;
+border-radius:8px;
 }
 
 /* WALLET */
@@ -67,14 +82,16 @@ padding:10px;
 border:1px solid #00ff88;
 border-radius:10px;
 text-align:left;
+display:flex;
+flex-direction:column;
+gap:8px;
 }
 
-/* ROW */
+/* TOP ROW */
 .row{
 display:flex;
 justify-content:space-between;
 align-items:center;
-gap:10px;
 }
 
 /* TEXT */
@@ -90,38 +107,15 @@ opacity:0.8;
 
 /* COPY BUTTON */
 .copy{
-margin-top:8px;
-width:100%;
 padding:6px;
 border:1px solid #00ff88;
 background:none;
 color:#00ff88;
 cursor:pointer;
+width:100%;
 }
 
 .copy:active{
-background:#00ff88;
-color:#000;
-}
-
-/* MUSIC */
-.music{
-margin-top:10px;
-padding:10px;
-border:1px solid #00ff88;
-border-radius:10px;
-}
-
-.music button{
-width:100%;
-padding:8px;
-border:1px solid #00ff88;
-background:none;
-color:#00ff88;
-cursor:pointer;
-}
-
-.music button:active{
 background:#00ff88;
 color:#000;
 }
@@ -137,74 +131,63 @@ color:#000;
 <div class="logo">6UILTRIP</div>
 
 <pre class="ascii">
-██╗   ██╗██╗██╗     ██╗██╗     ████████╗██████╗ ██╗██████╗
-██║   ██║██║██║     ██║██║     ╚══██╔══╝██╔══██╗██║██╔══██╗
-██║   ██║██║██║     ██║██║        ██║   ██████╔╝██║██████╔╝
-██║   ██║██║██║     ██║██║        ██║   ██╔══██╗██║██╔══██╗
-╚██████╔╝██║███████╗██║███████╗   ██║   ██║  ██║██║██║  ██║
- ╚═════╝ ╚═╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝
+  ____        _ _ _
+ / ___| _   _(_) | |_
+| |  _  | | | | | | __|
+| |_| | | |_| | | | |_
+ \____|  \__,_|_|_|\__|
 </pre>
 
 <div class="card">
-Discord: 6uiltrip
+<div>Discord: 6uiltrip</div>
 <div style="font-size:12px;opacity:0.8;">innocent until proven guilty.</div>
-
-<a class="btn" href="https://discord.gg/eNJPy55MQX" style="display:block;margin-top:10px;padding:8px;border:1px solid #00ff88;color:#00ff88;text-decoration:none;">
-Join LarpX
-</a>
+<a class="btn" href="https://discord.gg/eNJPy55MQX">Join LarpX</a>
 </div>
 
 <!-- BTC -->
 <div class="card wallet">
 <div class="row">
-<div>
 <div class="label">BTC</div>
 <div class="price" id="btc">Loading...</div>
 </div>
-</div>
-<button class="copy" onclick="copy('BTC')">Copy BTC Address</button>
+<button class="copy" onclick="copy('btcAddr')">Copy BTC Wallet</button>
 </div>
 
 <!-- ETH -->
 <div class="card wallet">
 <div class="row">
-<div>
 <div class="label">ETH</div>
 <div class="price" id="eth">Loading...</div>
 </div>
-</div>
-<button class="copy" onclick="copy('ETH')">Copy ETH Address</button>
+<button class="copy" onclick="copy('ethAddr')">Copy ETH Wallet</button>
 </div>
 
 <!-- SOL -->
 <div class="card wallet">
 <div class="row">
-<div>
 <div class="label">SOL</div>
 <div class="price" id="sol">Loading...</div>
 </div>
-</div>
-<button class="copy" onclick="copy('SOL')">Copy SOL Address</button>
+<button class="copy" onclick="copy('solAddr')">Copy SOL Wallet</button>
 </div>
 
 <!-- LTC -->
 <div class="card wallet">
 <div class="row">
-<div>
 <div class="label">LTC</div>
 <div class="price" id="ltc">Loading...</div>
 </div>
-</div>
-<button class="copy" onclick="copy('LTC')">Copy LTC Address</button>
-</div>
-
-<!-- MUSIC -->
-<div class="card music">
-<div style="font-size:12px;opacity:0.8;">Music</div>
-<button onclick="toggleMusic()">Play “Blue Bands - Weiland”</button>
-<audio id="audio" src="https://files.catbox.moe/bluebands.mp3"></audio>
+<button class="copy" onclick="copy('ltcAddr')">Copy LTC Wallet</button>
 </div>
 
+</div>
+
+<!-- HIDDEN ADDRESSES -->
+<div style="display:none">
+<div id="btcAddr">bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr</div>
+<div id="ethAddr">0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb</div>
+<div id="solAddr">CZdsusmB3VH17ML9vovnStep5KSEZWS4fsvkPKJgdvhN</div>
+<div id="ltcAddr">Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4</div>
 </div>
 
 <script>
@@ -251,48 +234,29 @@ drops[i]+=Math.random()*1.4;
 
 setInterval(draw,33);
 
-/* LIVE PRICES */
+/* PRICES */
 async function loadPrices(){
 try{
 const r=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,litecoin&vs_currencies=usd");
 const d=await r.json();
 
-document.getElementById("btc").innerText="Live Price: $"+d.bitcoin.usd;
-document.getElementById("eth").innerText="Live Price: $"+d.ethereum.usd;
-document.getElementById("sol").innerText="Live Price: $"+d.solana.usd;
-document.getElementById("ltc").innerText="Live Price: $"+d.litecoin.usd;
+document.getElementById("btc").innerText="$"+d.bitcoin.usd;
+document.getElementById("eth").innerText="$"+d.ethereum.usd;
+document.getElementById("sol").innerText="$"+d.solana.usd;
+document.getElementById("ltc").innerText="$"+d.litecoin.usd;
 
-}catch(e){
-}
+}catch(e){}
 }
 loadPrices();
 setInterval(loadPrices,15000);
 
 /* COPY */
-function copy(type){
-let addr="";
-
-if(type==="BTC") addr="bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr";
-if(type==="ETH") addr="0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb";
-if(type==="SOL") addr="CZdsusmB3VH17ML9vovnStep5KSEZWS4fsvkPKJgdvhN";
-if(type==="LTC") addr="Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4";
-
-navigator.clipboard.writeText(addr);
-}
-
-/* MUSIC */
-function toggleMusic(){
-const audio=document.getElementById("audio");
-if(audio.paused){
-audio.play();
-}else{
-audio.pause();
-}
+function copy(id){
+const text=document.getElementById(id).innerText;
+navigator.clipboard.writeText(text);
 }
 
 </script>
 
 </body>
-</html>
-</body>
-</html></html></html></html></html></html></html></html></html>
+</html></html></html></html></html></html></html></html></html></html>
