@@ -93,20 +93,26 @@ border:1px solid #00ff88;
 <body>
 <canvas id="matrix"></canvas>
 <canvas id="particles"></canvas>
+
 <div class="container">
 <div class="logo">
 6UILTRIP
 </div>
+
 <div class="typing" id="typing"></div>
+
 <div class="card">
 <p>Discord: 6uiltrip</p>
-<p>Roblox: sljcin</p>
-<a class="btn" href="https://discord.gg/larpx">
+<p>innocent until proven guilty.</p>
+
+<a class="btn" href="https://discord.gg/larp">
 Join Discord Server
 </a>
+
 <div class="terminal" id="terminal"></div>
 </div>
 </div>
+
 <script>
 const text=[
 "ACCESS GRANTED",
@@ -133,8 +139,10 @@ type();
 }
 }
 type();
+
 const terminal=
 document.getElementById("terminal");
+
 const commands=[
 "> initializing...",
 "> loading profile...",
@@ -143,6 +151,7 @@ const commands=[
 "> access granted...",
 "> connected."
 ];
+
 let i=0;
 setInterval(()=>{
 terminal.innerHTML+=
@@ -152,64 +161,54 @@ terminal.scrollTop=
 terminal.scrollHeight;
 i++;
 },2000);
+
 const canvas=
 document.getElementById("matrix");
 const ctx=
 canvas.getContext("2d");
-canvas.width=
-window.innerWidth;
-canvas.height=
-window.innerHeight;
-const chars=
-"01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+const chars="01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const size=16;
-const cols=
-canvas.width/size;
+const cols=canvas.width/size;
 const drops=[];
+
 for(let x=0;x<cols;x++){
 drops[x]=1;
 }
+
 function draw(){
-ctx.fillStyle=
-"rgba(0,0,0,0.05)";
-ctx.fillRect(
-0,0,
-canvas.width,
-canvas.height
-);
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
 ctx.fillStyle="#00ff88";
-ctx.font=
-size+"px monospace";
+ctx.font=size+"px monospace";
+
 for(let i=0;i<drops.length;i++){
-let txt=
-chars[Math.floor(
-Math.random()*chars.length
-)];
-ctx.fillText(
-txt,
-i*size,
-drops[i]*size
-);
-if(
-drops[i]*size>
-canvas.height &&
-Math.random()>0.975
-){
+let txt=chars[Math.floor(Math.random()*chars.length)];
+
+ctx.fillText(txt,i*size,drops[i]*size);
+
+if(drops[i]*size>canvas.height && Math.random()>0.975){
 drops[i]=0;
 }
+
 drops[i]++;
 }
 }
+
 setInterval(draw,35);
-const pCanvas=
-document.getElementById("particles");
-const pCtx=
-pCanvas.getContext("2d");
-pCanvas.width=
-window.innerWidth;
-pCanvas.height=
-window.innerHeight;
+
+const pCanvas=document.getElementById("particles");
+const pCtx=pCanvas.getContext("2d");
+
+pCanvas.width=window.innerWidth;
+pCanvas.height=window.innerHeight;
+
 const particles=[];
+
 for(let i=0;i<100;i++){
 particles.push({
 x:Math.random()*pCanvas.width,
@@ -217,32 +216,23 @@ y:Math.random()*pCanvas.height,
 r:Math.random()*2
 });
 }
+
 function animateParticles(){
-pCtx.clearRect(
-0,0,
-pCanvas.width,
-pCanvas.height
-);
+pCtx.clearRect(0,0,pCanvas.width,pCanvas.height);
+
 particles.forEach(p=>{
 p.y-=0.5;
-if(p.y<0)
-p.y=pCanvas.height;
+if(p.y<0)p.y=pCanvas.height;
+
 pCtx.beginPath();
-pCtx.arc(
-p.x,
-p.y,
-p.r,
-0,
-Math.PI*2
-);
-pCtx.fillStyle=
-"#00ff88";
+pCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
+pCtx.fillStyle="#00ff88";
 pCtx.fill();
 });
-requestAnimationFrame(
-animateParticles
-);
+
+requestAnimationFrame(animateParticles);
 }
+
 animateParticles();
 </script>
 </body>
