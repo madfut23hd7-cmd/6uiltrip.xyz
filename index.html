@@ -26,7 +26,6 @@ inset:0;
 z-index:-2;
 }
 
-/* CONTAINER */
 .container{
 max-width:520px;
 margin:auto;
@@ -41,13 +40,13 @@ margin-top:18px;
 text-shadow:0 0 12px #00ff88;
 }
 
-/* ASCII */
+/* ASCII FIXED */
 .ascii{
 white-space:pre;
 font-size:10px;
-opacity:0.8;
-margin-top:10px;
 line-height:10px;
+margin-top:10px;
+opacity:0.85;
 }
 
 /* CARD */
@@ -58,12 +57,6 @@ border:1px solid #00ff88;
 border-radius:12px;
 background:rgba(0,0,0,0.75);
 box-shadow:0 0 12px rgba(0,255,136,0.2);
-}
-
-/* TEXT */
-.small{
-font-size:12px;
-opacity:0.75;
 }
 
 /* BUTTON */
@@ -82,50 +75,47 @@ background:#00ff88;
 color:#000;
 }
 
-/* WALLET */
+/* WALLET ROW */
 .wallet{
 margin-top:10px;
 padding:10px;
 border:1px solid #00ff88;
 border-radius:10px;
-text-align:left;
 display:flex;
-gap:10px;
 align-items:center;
+justify-content:space-between;
+gap:10px;
+text-align:left;
 }
 
-.wallet code{
-font-size:11px;
-opacity:0.85;
-word-break:break-all;
+/* LEFT SIDE */
+.left{
+display:flex;
+align-items:center;
+gap:10px;
+flex:1;
 }
 
-/* ICONS */
+/* ICONS (clean crypto style) */
 .icon{
-width:28px;
-height:28px;
+width:26px;
+height:26px;
 fill:#00ff88;
 flex-shrink:0;
 }
 
-/* COPY */
-.copy{
-margin-top:6px;
-width:100%;
-padding:6px;
-border:1px solid #00ff88;
-background:none;
-color:#00ff88;
-cursor:pointer;
+/* TEXT */
+.label{
+font-size:13px;
+font-weight:bold;
 }
 
-/* MOBILE */
-@media(max-width:420px){
-.wallet{
-flex-direction:column;
-align-items:flex-start;
+.price{
+font-size:11px;
+opacity:0.8;
 }
-}
+
+/* COPY REMOVED STYLE CLUTTER */
 </style>
 </head>
 
@@ -137,49 +127,71 @@ align-items:flex-start;
 
 <div class="logo">6UILTRIP</div>
 
-<!-- ASCII LOGO -->
+<!-- FIXED ASCII -->
 <pre class="ascii">
-  ██████  ██    ██ ██ ██      ██ ██████  ██████  ██
- ██       ██    ██ ██ ██      ██ ██   ██ ██   ██ ██
- ██   ███ ██    ██ ██ ██      ██ ██████  ██████  ██
- ██    ██ ██    ██ ██ ██      ██ ██      ██   ██ ██
-  ██████   ██████  ██ ███████ ██ ██      ██   ██ ██
+██╗   ██╗██╗██╗     ██╗██╗     ████████╗██████╗ ██╗██████╗
+██║   ██║██║██║     ██║██║     ╚══██╔══╝██╔══██╗██║██╔══██╗
+██║   ██║██║██║     ██║██║        ██║   ██████╔╝██║██████╔╝
+██║   ██║██║██║     ██║██║        ██║   ██╔══██╗██║██╔══██╗
+╚██████╔╝██║███████╗██║███████╗   ██║   ██║  ██║██║██║  ██║
+ ╚═════╝ ╚═╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝
 </pre>
 
 <div class="card">
-<div class="small">Discord</div>
-<div>6uiltrip</div>
-<div class="small">innocent until proven guilty.</div>
-<a class="btn" href="https://discord.gg/eNJPy55MQX">Join Server</a>
+<div>Discord: 6uiltrip</div>
+<div style="font-size:12px;opacity:0.8;">innocent until proven guilty.</div>
+
+<a class="btn" href="https://discord.gg/eNJPy55MQX">
+Join LarpX
+</a>
 </div>
 
 <div class="card">
-<div class="small">Crypto Wallets</div>
 
 <!-- BTC -->
 <div class="wallet">
+<div class="left">
 <svg class="icon" viewBox="0 0 24 24"><path d="M11 17h1v2h2v-2h1a3 3 0 0 0 0-6h-4V9h4a3 3 0 0 0 0-6h-1V1h-2v2h-1a3 3 0 0 0 0 6h4v2h-4a3 3 0 0 0 0 6z"/></svg>
-<code>bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr</code>
+<div>
+<div class="label">BTC</div>
+<div class="price" id="btc">Live Price: loading...</div>
+</div>
+</div>
 </div>
 
 <!-- ETH -->
 <div class="wallet">
+<div class="left">
 <svg class="icon" viewBox="0 0 24 24"><path d="M12 2l4 7-4 2-4-2 4-7zm0 20l-4-7 4 2 4-2-4 7z"/></svg>
-<code>0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb</code>
+<div>
+<div class="label">ETH</div>
+<div class="price" id="eth">Live Price: loading...</div>
+</div>
+</div>
 </div>
 
 <!-- SOL -->
 <div class="wallet">
+<div class="left">
 <svg class="icon" viewBox="0 0 24 24">
 <path d="M4 17h16l-3 3H1l3-3zm0-5h16l-3 3H1l3-3zm0-5h16l-3 3H1l3-3z"/>
 </svg>
-<code>CZdsusmB3VH17ML9vovnStep5KSEZWS4fsvkPKJgdvhN</code>
+<div>
+<div class="label">SOL</div>
+<div class="price" id="sol">Live Price: loading...</div>
+</div>
+</div>
 </div>
 
 <!-- LTC -->
 <div class="wallet">
+<div class="left">
 <svg class="icon" viewBox="0 0 24 24"><path d="M12 2l3 10h-6l3-10zm0 20l-3-10h6l-3 10z"/></svg>
-<code>Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4</code>
+<div>
+<div class="label">LTC</div>
+<div class="price" id="ltc">Live Price: loading...</div>
+</div>
+</div>
 </div>
 
 </div>
@@ -188,7 +200,7 @@ align-items:flex-start;
 
 <script>
 
-/* MATRIX UPGRADED */
+/* MATRIX IMPROVED */
 const c=document.getElementById("matrix");
 const ctx=c.getContext("2d");
 
@@ -199,7 +211,7 @@ c.height=window.innerHeight;
 resize();
 window.addEventListener("resize",resize);
 
-const chars="01BTCETHSOL#@$%Ξλ";
+const chars="01BTCETHSOL#@$%Ξ";
 const size=14;
 
 let drops=[];
@@ -211,30 +223,50 @@ init();
 window.addEventListener("resize",init);
 
 function draw(){
-ctx.fillStyle="rgba(0,0,0,0.07)";
+ctx.fillStyle="rgba(0,0,0,0.06)";
 ctx.fillRect(0,0,c.width,c.height);
 
 ctx.fillStyle="#00ff88";
 ctx.font=size+"px monospace";
 
 for(let i=0;i<drops.length;i++){
+const ch=chars[Math.floor(Math.random()*chars.length)];
+ctx.fillText(ch,i*size,drops[i]*size);
 
-const char=chars[Math.floor(Math.random()*chars.length)];
-
-ctx.fillText(char,i*size,drops[i]*size);
-
-/* more “alive” rain */
-if(drops[i]*size>c.height && Math.random()>0.97){
+if(drops[i]*size>c.height && Math.random()>0.96){
 drops[i]=0;
 }
-
-drops[i]+=Math.random()*1.3;
+drops[i]+=Math.random()*1.4;
 }
 }
 
 setInterval(draw,33);
 
+/* LIVE PRICES */
+async function loadPrices(){
+try{
+const r=await fetch(
+"https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,litecoin&vs_currencies=usd"
+);
+const d=await r.json();
+
+document.getElementById("btc").innerText="Live Price: $"+d.bitcoin.usd;
+document.getElementById("eth").innerText="Live Price: $"+d.ethereum.usd;
+document.getElementById("sol").innerText="Live Price: $"+d.solana.usd;
+document.getElementById("ltc").innerText="Live Price: $"+d.litecoin.usd;
+
+}catch(e){
+document.getElementById("btc").innerText="Live Price: offline";
+document.getElementById("eth").innerText="Live Price: offline";
+document.getElementById("sol").innerText="Live Price: offline";
+document.getElementById("ltc").innerText="Live Price: offline";
+}
+}
+
+loadPrices();
+setInterval(loadPrices,15000);
+
 </script>
 
 </body>
-</html></html></html></html></html></html></html></html>
+</html></html></html></html></html></html></html></html></html>
