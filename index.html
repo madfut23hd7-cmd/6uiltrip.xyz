@@ -74,7 +74,6 @@ border-radius:15px;
 box-shadow:0 0 25px #00ff88;
 }
 
-/* BUTTON */
 .btn{
 display:block;
 margin:10px auto;
@@ -118,7 +117,12 @@ padding:12px;
 border:1px solid #00ff88;
 border-radius:10px;
 background:rgba(0,0,0,0.6);
-box-shadow:0 0 10px rgba(0,255,136,0.2);
+transition:0.25s;
+}
+
+.wallet:hover{
+transform:scale(1.02);
+box-shadow:0 0 18px #00ff88;
 }
 
 .wallet img{
@@ -160,6 +164,32 @@ background:#00ff88;
 color:black;
 }
 
+/* CRT EFFECT */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:linear-gradient(rgba(0,255,136,0.05),transparent);
+pointer-events:none;
+z-index:0;
+}
+
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background:repeating-linear-gradient(
+0deg,
+rgba(0,0,0,0.15),
+rgba(0,0,0,0.15) 1px,
+transparent 2px,
+transparent 4px
+);
+pointer-events:none;
+z-index:1;
+mix-blend-mode:overlay;
+}
+
 </style>
 </head>
 
@@ -183,14 +213,12 @@ color:black;
 Join LarpX
 </a>
 
-<!-- TERMINAL -->
 <div class="terminal" id="terminal"></div>
 
-<!-- WALLET SECTION -->
 <div class="wallets">
 
   <div class="wallet">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/bitcoin.svg">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/bitcoin.svg">
     <div class="wallet-info">
       <span>Bitcoin</span>
       <code id="btc">bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr</code>
@@ -199,7 +227,7 @@ Join LarpX
   </div>
 
   <div class="wallet">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/ethereum.svg">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/ethereum.svg">
     <div class="wallet-info">
       <span>Ethereum</span>
       <code id="eth">0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb</code>
@@ -217,7 +245,7 @@ Join LarpX
   </div>
 
   <div class="wallet">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/litecoin.svg">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/litecoin.svg">
     <div class="wallet-info">
       <span>Litecoin</span>
       <code id="ltc">Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4</code>
@@ -228,16 +256,39 @@ Join LarpX
 </div>
 
 </div>
-</div>
+
+<!-- SOUND -->
+<audio id="ambient" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/10/16/audio_c8c8f4d3b2.mp3?filename=dark-ambient-crypto-143159.mp3">
+</audio>
+
+<audio id="click">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c1c3f4d7b.mp3?filename=click-124467.mp3">
+</audio>
+
+<button id="soundBtn" style="
+position:fixed;
+bottom:15px;
+right:15px;
+z-index:999;
+background:black;
+border:1px solid #00ff88;
+color:#00ff88;
+padding:8px;
+cursor:pointer;
+font-family:monospace;
+">
+SOUND OFF
+</button>
 
 <script>
 
-/* TYPE EFFECT */
+/* TEXT TYPE */
 const text=[
 "ACCESS GRANTED",
-"CONNECTING TO NODE...",
+"CONNECTING NODE...",
 "ENCRYPTION ACTIVE",
-"CRYPTO WALLET SYNCED"
+"CRYPTO SYNC COMPLETE"
 ];
 
 let line=0,char=0;
@@ -262,11 +313,10 @@ type();
 const terminal=document.getElementById("terminal");
 
 const commands=[
-"> boot sequence initiated...",
-"> hashing network...",
-"> blockchain sync...",
-"> wallet scan complete...",
-"> system online."
+"> booting system...",
+"> hashing blockchain...",
+"> syncing wallets...",
+"> connection stable."
 ];
 
 let i=0;
@@ -277,30 +327,55 @@ terminal.scrollTop=terminal.scrollHeight;
 i++;
 },1800);
 
-/* COPY FUNCTION */
+/* COPY */
+let soundOn=false;
+
+const ambient=document.getElementById("ambient");
+const click=document.getElementById("click");
+const soundBtn=document.getElementById("soundBtn");
+
+soundBtn.onclick=()=>{
+soundOn=!soundOn;
+
+if(soundOn){
+ambient.volume=0.25;
+ambient.play();
+soundBtn.innerText="SOUND ON";
+}else{
+ambient.pause();
+soundBtn.innerText="SOUND OFF";
+}
+};
+
 function copy(id){
 const text=document.getElementById(id).innerText;
 navigator.clipboard.writeText(text);
+
+if(soundOn){
+click.currentTime=0;
+click.volume=0.6;
+click.play();
+}
 
 event.target.innerText="Copied";
 setTimeout(()=>event.target.innerText="Copy",1200);
 }
 
-/* MATRIX RAIN (CRYPTO THEMED) */
+/* MATRIX */
 const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
 
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
-const symbols="01ABCDEF#@$%BTCETHSOLLTC<>[]{}";
+const symbols="01ABCDEF0123456789BTCETHSOLLTCLINKXRP{}[]<>/\\";
 const size=14;
 const cols=canvas.width/size;
 
 const drops=Array.from({length:cols},()=>1);
 
 function draw(){
-ctx.fillStyle="rgba(0,0,0,0.08)";
+ctx.fillStyle="rgba(0,0,0,0.06)";
 ctx.fillRect(0,0,canvas.width,canvas.height);
 
 ctx.fillStyle="#00ff88";
@@ -308,13 +383,11 @@ ctx.font=size+"px monospace";
 
 for(let i=0;i<drops.length;i++){
 const char=symbols[Math.floor(Math.random()*symbols.length)];
-
 ctx.fillText(char,i*size,drops[i]*size);
 
 if(drops[i]*size>canvas.height && Math.random()>0.98){
 drops[i]=0;
 }
-
 drops[i]++;
 }
 }
@@ -358,4 +431,4 @@ animate();
 </script>
 
 </body>
-</html></html>
+</html></html></html>
