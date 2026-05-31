@@ -15,16 +15,67 @@ font-family:monospace;
 
 body{
 background:#000;
-overflow-x:hidden;
+overflow:hidden;
 color:#00ff88;
 }
 
-/* MATRIX BACKGROUND */
+/* ===== LOADING SCREEN ===== */
+#loadingScreen{
+position:fixed;
+inset:0;
+background:#000;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:9999;
+color:#00ff88;
+}
+
+#loadingText{
+font-size:1.2rem;
+letter-spacing:2px;
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+50%{opacity:0.3}
+}
+
+/* CLICK TO ENTER */
+#enterScreen{
+position:fixed;
+inset:0;
+background:radial-gradient(circle,#001a10,#000);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:9998;
+cursor:pointer;
+}
+
+#enterScreen h1{
+font-size:2rem;
+text-shadow:0 0 10px #00ff88;
+}
+
+/* MAIN BACKGROUND LAYERS */
 canvas{
 position:fixed;
 top:0;
 left:0;
+z-index:-3;
+}
+
+#noise{
+position:fixed;
+inset:0;
 z-index:-2;
+opacity:0.08;
+background-image:url("https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif");
+pointer-events:none;
+mix-blend-mode:screen;
 }
 
 #particles{
@@ -35,6 +86,7 @@ z-index:-1;
 pointer-events:none;
 }
 
+/* CONTAINER */
 .container{
 max-width:900px;
 margin:auto;
@@ -45,8 +97,8 @@ text-align:center;
 .logo{
 font-size:4rem;
 font-weight:bold;
+text-shadow:0 0 10px #00ff88,0 0 20px #00ff88;
 animation:glitch 2s infinite;
-text-shadow:0 0 10px #00ff88,0 0 20px #00ff88,0 0 40px #00ff88;
 }
 
 @keyframes glitch{
@@ -60,7 +112,7 @@ text-shadow:0 0 10px #00ff88,0 0 20px #00ff88,0 0 40px #00ff88;
 
 .typing{
 margin-top:20px;
-font-size:1.2rem;
+font-size:1.1rem;
 height:40px;
 }
 
@@ -74,34 +126,18 @@ border-radius:15px;
 box-shadow:0 0 25px #00ff88;
 }
 
-.btn{
-display:block;
-margin:10px auto;
-width:250px;
-padding:12px;
-text-decoration:none;
-color:#00ff88;
-border:1px solid #00ff88;
-transition:.3s;
-}
-
-.btn:hover{
-background:#00ff88;
-color:black;
-}
-
 /* TERMINAL */
 .terminal{
 text-align:left;
-background:black;
+background:#000;
 padding:15px;
-height:200px;
+height:180px;
 overflow:auto;
 margin-top:20px;
 border:1px solid #00ff88;
 }
 
-/* WALLET SECTION */
+/* WALLET */
 .wallets{
 margin-top:25px;
 display:flex;
@@ -125,10 +161,10 @@ transform:scale(1.02);
 box-shadow:0 0 18px #00ff88;
 }
 
-.wallet img{
+.icon{
 width:26px;
 height:26px;
-filter:invert(1) sepia(1) saturate(5) hue-rotate(90deg);
+fill:#00ff88;
 }
 
 .wallet-info{
@@ -137,11 +173,6 @@ text-align:left;
 margin-left:10px;
 display:flex;
 flex-direction:column;
-}
-
-.wallet-info span{
-font-weight:bold;
-letter-spacing:1px;
 }
 
 .wallet code{
@@ -156,24 +187,14 @@ border:1px solid #00ff88;
 color:#00ff88;
 padding:6px 10px;
 cursor:pointer;
-transition:0.3s;
 }
 
 .wallet button:hover{
 background:#00ff88;
-color:black;
+color:#000;
 }
 
-/* CRT EFFECT */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:linear-gradient(rgba(0,255,136,0.05),transparent);
-pointer-events:none;
-z-index:0;
-}
-
+/* CRT LINES */
 body::after{
 content:"";
 position:fixed;
@@ -195,13 +216,24 @@ mix-blend-mode:overlay;
 
 <body>
 
+<!-- LOADING -->
+<div id="loadingScreen">
+<div id="loadingText">decrypting system...</div>
+</div>
+
+<!-- ENTER -->
+<div id="enterScreen" onclick="enterSite()">
+<h1>CLICK TO ENTER</h1>
+<p>initializing crypto node...</p>
+</div>
+
 <canvas id="matrix"></canvas>
 <canvas id="particles"></canvas>
+<div id="noise"></div>
 
 <div class="container">
 
 <div class="logo">6UILTRIP</div>
-
 <div class="typing" id="typing"></div>
 
 <div class="card">
@@ -209,86 +241,72 @@ mix-blend-mode:overlay;
 <p>Discord: 6uiltrip</p>
 <p>status: innocent until proven guilty.</p>
 
-<a class="btn" href="https://discord.gg/eNJPy55MQX">
-Join LarpX
-</a>
-
 <div class="terminal" id="terminal"></div>
 
 <div class="wallets">
 
-  <div class="wallet">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/bitcoin.svg">
-    <div class="wallet-info">
-      <span>Bitcoin</span>
-      <code id="btc">bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr</code>
-    </div>
-    <button onclick="copy('btc')">Copy</button>
-  </div>
+<!-- BTC -->
+<div class="wallet">
+<svg class="icon" viewBox="0 0 24 24"><path d="M11 17h1v2h2v-2h1a3 3 0 0 0 0-6h-4V9h4a3 3 0 0 0 0-6h-1V1h-2v2h-1a3 3 0 0 0 0 6h4v2h-4a3 3 0 0 0 0 6z"/></svg>
+<div class="wallet-info">
+<span>Bitcoin</span>
+<code id="btc">bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr</code>
+</div>
+<button onclick="copy('btc')">Copy</button>
+</div>
 
-  <div class="wallet">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/ethereum.svg">
-    <div class="wallet-info">
-      <span>Ethereum</span>
-      <code id="eth">0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb</code>
-    </div>
-    <button onclick="copy('eth')">Copy</button>
-  </div>
+<!-- ETH -->
+<div class="wallet">
+<svg class="icon" viewBox="0 0 24 24"><path d="M12 2l4 7-4 2-4-2 4-7zm0 20l-4-7 4 2 4-2-4 7z"/></svg>
+<div class="wallet-info">
+<span>Ethereum</span>
+<code id="eth">0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb</code>
+</div>
+<button onclick="copy('eth')">Copy</button>
+</div>
 
-  <div class="wallet">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/solana.svg">
-    <div class="wallet-info">
-      <span>Solana</span>
-      <code id="sol">CZdsusmB3VH17ML9vovnStep5KSEZWS4fsvkPKJgdvhN</code>
-    </div>
-    <button onclick="copy('sol')">Copy</button>
-  </div>
+<!-- SOL (FIXED INLINE SVG) -->
+<div class="wallet">
+<svg class="icon" viewBox="0 0 24 24">
+<path d="M4 17l3-3h14l-3 3H4zm0-5l3-3h14l-3 3H4zm0-5l3-3h14l-3 3H4z"/>
+</svg>
+<div class="wallet-info">
+<span>Solana</span>
+<code id="sol">CZdsusmB3VH17ML9vovnStep5KSEZWS4fsvkPKJgdvhN</code>
+</div>
+<button onclick="copy('sol')">Copy</button>
+</div>
 
-  <div class="wallet">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/litecoin.svg">
-    <div class="wallet-info">
-      <span>Litecoin</span>
-      <code id="ltc">Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4</code>
-    </div>
-    <button onclick="copy('ltc')">Copy</button>
-  </div>
-
+<!-- LTC -->
+<div class="wallet">
+<svg class="icon" viewBox="0 0 24 24"><path d="M12 2l3 10h-6l3-10zm0 20l-3-10h6l-3 10z"/></svg>
+<div class="wallet-info">
+<span>Litecoin</span>
+<code id="ltc">Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4</code>
+</div>
+<button onclick="copy('ltc')">Copy</button>
 </div>
 
 </div>
 
-<!-- SOUND -->
-<audio id="ambient" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/10/16/audio_c8c8f4d3b2.mp3?filename=dark-ambient-crypto-143159.mp3">
-</audio>
-
-<audio id="click">
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c1c3f4d7b.mp3?filename=click-124467.mp3">
-</audio>
-
-<button id="soundBtn" style="
-position:fixed;
-bottom:15px;
-right:15px;
-z-index:999;
-background:black;
-border:1px solid #00ff88;
-color:#00ff88;
-padding:8px;
-cursor:pointer;
-font-family:monospace;
-">
-SOUND OFF
-</button>
+</div>
+</div>
 
 <script>
 
-/* TEXT TYPE */
+/* ENTER SYSTEM */
+function enterSite(){
+document.getElementById("enterScreen").style.display="none";
+document.getElementById("loadingScreen").style.display="none";
+start();
+}
+
+/* TYPE EFFECT */
 const text=[
 "ACCESS GRANTED",
-"CONNECTING NODE...",
-"ENCRYPTION ACTIVE",
-"CRYPTO SYNC COMPLETE"
+"INITIALIZING NODE...",
+"ENCRYPTION ONLINE",
+"WALLET SYNC COMPLETE"
 ];
 
 let line=0,char=0;
@@ -307,68 +325,36 @@ type();
 },1200);
 }
 }
-type();
 
 /* TERMINAL */
 const terminal=document.getElementById("terminal");
 
 const commands=[
-"> booting system...",
-"> hashing blockchain...",
-"> syncing wallets...",
-"> connection stable."
+"> boot sequence...",
+"> blockchain scan...",
+"> crypto tunnel open...",
+"> system stable."
 ];
 
 let i=0;
 
-setInterval(()=>{
-terminal.innerHTML+=commands[i%commands.length]+"<br>";
-terminal.scrollTop=terminal.scrollHeight;
-i++;
-},1800);
-
 /* COPY */
-let soundOn=false;
-
-const ambient=document.getElementById("ambient");
-const click=document.getElementById("click");
-const soundBtn=document.getElementById("soundBtn");
-
-soundBtn.onclick=()=>{
-soundOn=!soundOn;
-
-if(soundOn){
-ambient.volume=0.25;
-ambient.play();
-soundBtn.innerText="SOUND ON";
-}else{
-ambient.pause();
-soundBtn.innerText="SOUND OFF";
-}
-};
-
 function copy(id){
 const text=document.getElementById(id).innerText;
 navigator.clipboard.writeText(text);
-
-if(soundOn){
-click.currentTime=0;
-click.volume=0.6;
-click.play();
-}
-
 event.target.innerText="Copied";
 setTimeout(()=>event.target.innerText="Copy",1200);
 }
 
 /* MATRIX */
+function matrix(){
 const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
 
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
-const symbols="01ABCDEF0123456789BTCETHSOLLTCLINKXRP{}[]<>/\\";
+const symbols="01BTCETHSOLLTC#@$%";
 const size=14;
 const cols=canvas.width/size;
 
@@ -391,44 +377,51 @@ drops[i]=0;
 drops[i]++;
 }
 }
-
 setInterval(draw,40);
+}
 
 /* PARTICLES */
-const pCanvas=document.getElementById("particles");
-const pCtx=pCanvas.getContext("2d");
+function particles(){
+const c=document.getElementById("particles");
+const ctx=c.getContext("2d");
 
-pCanvas.width=window.innerWidth;
-pCanvas.height=window.innerHeight;
+c.width=window.innerWidth;
+c.height=window.innerHeight;
 
-const particles=[];
-
-for(let i=0;i<120;i++){
-particles.push({
-x:Math.random()*pCanvas.width,
-y:Math.random()*pCanvas.height,
-r:Math.random()*2
-});
+const p=[];
+for(let i=0;i<100;i++){
+p.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2});
 }
 
-function animate(){
-pCtx.clearRect(0,0,pCanvas.width,pCanvas.height);
-
-particles.forEach(p=>{
-p.y-=0.4;
-if(p.y<0)p.y=pCanvas.height;
-
-pCtx.beginPath();
-pCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
-pCtx.fillStyle="#00ff88";
-pCtx.fill();
+function anim(){
+ctx.clearRect(0,0,c.width,c.height);
+p.forEach(x=>{
+x.y-=0.4;
+if(x.y<0)x.y=c.height;
+ctx.beginPath();
+ctx.arc(x.x,x.y,x.r,0,Math.PI*2);
+ctx.fillStyle="#00ff88";
+ctx.fill();
 });
-
-requestAnimationFrame(animate);
+requestAnimationFrame(anim);
 }
-animate();
+anim();
+}
+
+/* START */
+function start(){
+type();
+matrix();
+particles();
+
+setInterval(()=>{
+terminal.innerHTML+=commands[i%commands.length]+"<br>";
+terminal.scrollTop=terminal.scrollHeight;
+i++;
+},1800);
+}
 
 </script>
 
 </body>
-</html></html></html>
+</html></html></html></html>
