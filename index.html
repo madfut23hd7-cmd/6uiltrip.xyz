@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CRYPTO_OS // 6UILTRIP NODE</title>
+<title>6uiltrip.xyz</title>
 
 <style>
 *{
@@ -16,265 +16,214 @@ font-family:monospace;
 body{
 background:#000;
 color:#00ff88;
-overflow:hidden;
+overflow-x:hidden;
 }
 
-/* ===== BOOT LOADING ===== */
-#loadingScreen{
-position:fixed;
-inset:0;
-background:#000;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-#loadingBar{
-width:300px;
-height:4px;
-border:1px solid #00ff88;
-margin-top:20px;
-overflow:hidden;
-}
-
-#loadingFill{
-height:100%;
-width:0%;
-background:#00ff88;
-transition:0.2s;
-}
-
-/* ENTER SCREEN */
-#enterScreen{
-position:fixed;
-inset:0;
-background:radial-gradient(circle,#001a10,#000);
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:9998;
-cursor:pointer;
-}
-
-#enterScreen h1{
-text-shadow:0 0 10px #00ff88;
-}
-
-/* DESKTOP */
-#desktop{
-display:none;
-height:100vh;
-width:100vw;
-position:relative;
-}
-
-/* BACKGROUND LAYERS */
+/* MATRIX */
 canvas{
 position:fixed;
 inset:0;
 z-index:-2;
 }
 
-#noise{
-position:fixed;
-inset:0;
-opacity:0.06;
-background-image:url("https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif");
-z-index:-1;
-mix-blend-mode:screen;
+.container{
+max-width:520px;
+margin:auto;
+padding:18px;
+text-align:center;
 }
 
-/* OS TOP BAR */
-#topbar{
-height:40px;
-border-bottom:1px solid #00ff88;
-display:flex;
-align-items:center;
-padding:0 10px;
-justify-content:space-between;
-background:#000;
+.logo{
+font-size:2.4rem;
+margin-top:20px;
+text-shadow:0 0 10px #00ff88;
 }
 
-#osTitle{
-font-size:12px;
-letter-spacing:2px;
-}
-
-/* WINDOWS */
-.window{
-position:absolute;
-width:320px;
-background:rgba(0,0,0,0.85);
+/* CARD */
+.card{
+margin-top:14px;
+padding:14px;
 border:1px solid #00ff88;
-box-shadow:0 0 20px #00ff88;
+border-radius:12px;
+background:rgba(0,0,0,0.75);
+box-shadow:0 0 12px rgba(0,255,136,0.25);
 }
 
-.window-header{
-padding:6px;
-border-bottom:1px solid #00ff88;
+.small{
 font-size:12px;
-}
-
-.window-body{
-padding:10px;
-font-size:12px;
+opacity:0.7;
 }
 
 /* BUTTON */
-button{
-background:none;
+.btn{
+display:block;
+margin-top:10px;
+padding:10px;
 border:1px solid #00ff88;
 color:#00ff88;
-padding:5px;
-cursor:pointer;
+text-decoration:none;
+border-radius:8px;
 }
 
-button:hover{
+.btn:active{
 background:#00ff88;
 color:#000;
 }
 
-/* TERMINAL */
-#terminal{
-height:140px;
-overflow:auto;
-background:#000;
-padding:8px;
-border:1px solid #00ff88;
-}
-
 /* WALLET */
 .wallet{
-margin-top:8px;
-font-size:11px;
-word-break:break-all;
+margin-top:10px;
+padding:10px;
+border:1px solid #00ff88;
+border-radius:10px;
+text-align:left;
+position:relative;
 }
 
-/* MATRIX */
+.wallet code{
+font-size:11px;
+word-break:break-all;
+opacity:0.85;
+display:block;
+margin-top:6px;
+}
+
+/* QR */
+.qr{
+width:60px;
+height:60px;
+position:absolute;
+right:10px;
+top:10px;
+border:1px solid #00ff88;
+border-radius:6px;
+}
+
+/* COPY BUTTON */
+.copy{
+margin-top:8px;
+width:100%;
+padding:6px;
+border:1px solid #00ff88;
+background:none;
+color:#00ff88;
+cursor:pointer;
+}
+
+/* TICKER */
+.ticker{
+font-size:12px;
+opacity:0.85;
+}
+
+/* MOBILE FIX */
+@media(max-width:420px){
+.qr{
+position:static;
+display:block;
+margin-top:8px;
+}
+}
 </style>
 </head>
 
 <body>
 
-<!-- LOADING -->
-<div id="loadingScreen">
-<div>BOOTING CRYPTO_OS...</div>
-<div id="loadingBar"><div id="loadingFill"></div></div>
-</div>
-
-<!-- ENTER -->
-<div id="enterScreen" onclick="enterOS()">
-<h1>CLICK TO INITIALIZE NODE</h1>
-<p>decrypting blockchain environment...</p>
-</div>
-
-<!-- DESKTOP -->
-<div id="desktop">
-
-<div id="topbar">
-<div id="osTitle">CRYPTO_OS v1.0 // NODE ACTIVE</div>
-<div>6UILTRIP</div>
-</div>
-
-<!-- TERMINAL WINDOW -->
-<div class="window" style="top:60px;left:20px;">
-<div class="window-header">SYSTEM TERMINAL</div>
-<div class="window-body">
-<div id="terminal"></div>
-</div>
-</div>
-
-<!-- WALLET WINDOW -->
-<div class="window" style="top:60px;right:20px;">
-<div class="window-header">WALLET NODE</div>
-<div class="window-body">
-
-<div class="wallet">
-BTC:<br>
-bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr
-</div>
-
-<div class="wallet">
-ETH:<br>
-0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb
-</div>
-
-<div class="wallet">
-SOL:<br>
-CZdsusmB3VH17ML9vovnStep5KSEZWS4fsvkPKJgdvhN
-</div>
-
-<div class="wallet">
-LTC:<br>
-Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4
-</div>
-
-</div>
-</div>
-
-</div>
-
-<div id="noise"></div>
 <canvas id="matrix"></canvas>
+
+<div class="container">
+
+<div class="logo" id="type">6UILTRIP</div>
+
+<div class="card">
+<div class="small">Discord</div>
+<div>6uiltrip</div>
+<a class="btn" href="https://discord.gg/eNJPy55MQX">Join Server</a>
+</div>
+
+<div class="card">
+<div class="small">Live Crypto Prices</div>
+<div class="ticker" id="prices">Loading...</div>
+</div>
+
+<div class="card">
+<div class="small">Wallets</div>
+
+<div class="wallet">
+<div>BTC</div>
+<img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr">
+<code id="btc">bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr</code>
+<button class="copy" onclick="copy('btc',this)">Copy</button>
+</div>
+
+<div class="wallet">
+<div>ETH</div>
+<img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb">
+<code id="eth">0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb</code>
+<button class="copy" onclick="copy('eth',this)">Copy</button>
+</div>
+
+<div class="wallet">
+<div>SOL</div>
+<img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=CZdsusmB3VH17ML9vovnStep5KSEZWS4fsvkPKJgdvhN">
+<code id="sol">CZdsusmB3VH17ML9vovnStep5KSEZWS4fsvkPKJgdvhN</code>
+<button class="copy" onclick="copy('sol',this)">Copy</button>
+</div>
+
+<div class="wallet">
+<div>LTC</div>
+<img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4">
+<code id="ltc">Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4</code>
+<button class="copy" onclick="copy('ltc',this)">Copy</button>
+</div>
+
+</div>
+
+</div>
 
 <script>
 
-/* LOADING FIX */
-let fill=document.getElementById("loadingFill");
-let progress=0;
-
-let loader=setInterval(()=>{
-progress+=5;
-fill.style.width=progress+"%";
-
-if(progress>=100){
-clearInterval(loader);
-setTimeout(()=>{
-document.getElementById("loadingScreen").style.display="none";
-document.getElementById("enterScreen").style.display="flex";
-},500);
-}
-},120);
-
-/* ENTER OS */
-function enterOS(){
-document.getElementById("enterScreen").style.display="none";
-document.getElementById("desktop").style.display="block";
-startOS();
-}
-
-/* TERMINAL */
-const terminal=document.getElementById("terminal");
-
-const boot=[
-"> init crypto kernel...",
-"> scanning nodes...",
-"> syncing blockchain...",
-"> decrypt complete.",
-"> system online."
-];
-
+/* TYPE EFFECT */
+const t="6UILTRIP";
 let i=0;
+setInterval(()=>{
+document.getElementById("type").innerText=t.slice(0,i++);
+if(i>t.length)i=0;
+},200);
 
-/* MATRIX */
-function matrix(){
+/* SAFE COPY FIX */
+function copy(id,btn){
+const el=document.getElementById(id);
+navigator.clipboard.writeText(el.innerText);
+btn.innerText="Copied";
+setTimeout(()=>btn.innerText="Copy",1200);
+}
+
+/* MATRIX (RESIZE SAFE) */
 const c=document.getElementById("matrix");
 const ctx=c.getContext("2d");
 
+function resize(){
 c.width=window.innerWidth;
 c.height=window.innerHeight;
+}
+resize();
+window.addEventListener("resize",resize);
 
-const chars="BTCETHSOLLTC0123456789#@$%";
+const chars="BTCETHSOLLTC0123456789#$%";
 const size=14;
-const cols=c.width/size;
+let cols=()=>Math.floor(c.width/size);
+let drops=[];
 
-const drops=Array.from({length:cols},()=>1);
+function initDrops(){
+drops=Array.from({length:cols()},()=>1);
+}
+initDrops();
+
+window.addEventListener("resize",initDrops);
 
 function draw(){
-ctx.fillStyle="rgba(0,0,0,0.06)";
+ctx.fillStyle="rgba(0,0,0,0.08)";
 ctx.fillRect(0,0,c.width,c.height);
 
 ctx.fillStyle="#00ff88";
@@ -290,21 +239,25 @@ drops[x]=0;
 drops[x]++;
 }
 }
+
 setInterval(draw,40);
-}
 
-/* OS START */
-function startOS(){
-matrix();
+/* PRICES (SAFE) */
+async function loadPrices(){
+try{
+const r=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,litecoin&vs_currencies=usd");
+const d=await r.json();
 
-setInterval(()=>{
-terminal.innerHTML+=boot[i%boot.length]+"<br>";
-terminal.scrollTop=terminal.scrollHeight;
-i++;
-},1200);
+document.getElementById("prices").innerText=
+`BTC $${d?.bitcoin?.usd ?? "?"} | ETH $${d?.ethereum?.usd ?? "?"} | SOL $${d?.solana?.usd ?? "?"} | LTC $${d?.litecoin?.usd ?? "?"}`;
+}catch(e){
+document.getElementById("prices").innerText="Price feed offline";
 }
+}
+loadPrices();
+setInterval(loadPrices,15000);
 
 </script>
 
 </body>
-</html></html></html></html></html></html>
+</html></html></html></html></html></html></html>
