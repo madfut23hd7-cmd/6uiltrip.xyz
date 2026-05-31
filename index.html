@@ -26,6 +26,7 @@ inset:0;
 z-index:-2;
 }
 
+/* CONTAINER */
 .container{
 max-width:520px;
 margin:auto;
@@ -33,10 +34,20 @@ padding:18px;
 text-align:center;
 }
 
+/* TITLE */
 .logo{
 font-size:2.4rem;
-margin-top:20px;
-text-shadow:0 0 10px #00ff88;
+margin-top:18px;
+text-shadow:0 0 12px #00ff88;
+}
+
+/* ASCII */
+.ascii{
+white-space:pre;
+font-size:10px;
+opacity:0.8;
+margin-top:10px;
+line-height:10px;
 }
 
 /* CARD */
@@ -46,12 +57,13 @@ padding:14px;
 border:1px solid #00ff88;
 border-radius:12px;
 background:rgba(0,0,0,0.75);
-box-shadow:0 0 12px rgba(0,255,136,0.25);
+box-shadow:0 0 12px rgba(0,255,136,0.2);
 }
 
+/* TEXT */
 .small{
 font-size:12px;
-opacity:0.7;
+opacity:0.75;
 }
 
 /* BUTTON */
@@ -77,31 +89,28 @@ padding:10px;
 border:1px solid #00ff88;
 border-radius:10px;
 text-align:left;
-position:relative;
+display:flex;
+gap:10px;
+align-items:center;
 }
 
 .wallet code{
 font-size:11px;
-word-break:break-all;
 opacity:0.85;
-display:block;
-margin-top:6px;
+word-break:break-all;
 }
 
-/* QR */
-.qr{
-width:60px;
-height:60px;
-position:absolute;
-right:10px;
-top:10px;
-border:1px solid #00ff88;
-border-radius:6px;
+/* ICONS */
+.icon{
+width:28px;
+height:28px;
+fill:#00ff88;
+flex-shrink:0;
 }
 
-/* COPY BUTTON */
+/* COPY */
 .copy{
-margin-top:8px;
+margin-top:6px;
 width:100%;
 padding:6px;
 border:1px solid #00ff88;
@@ -110,18 +119,11 @@ color:#00ff88;
 cursor:pointer;
 }
 
-/* TICKER */
-.ticker{
-font-size:12px;
-opacity:0.85;
-}
-
-/* MOBILE FIX */
+/* MOBILE */
 @media(max-width:420px){
-.qr{
-position:static;
-display:block;
-margin-top:8px;
+.wallet{
+flex-direction:column;
+align-items:flex-start;
 }
 }
 </style>
@@ -133,48 +135,51 @@ margin-top:8px;
 
 <div class="container">
 
-<div class="logo" id="type">6UILTRIP</div>
+<div class="logo">6UILTRIP</div>
+
+<!-- ASCII LOGO -->
+<pre class="ascii">
+  ██████  ██    ██ ██ ██      ██ ██████  ██████  ██
+ ██       ██    ██ ██ ██      ██ ██   ██ ██   ██ ██
+ ██   ███ ██    ██ ██ ██      ██ ██████  ██████  ██
+ ██    ██ ██    ██ ██ ██      ██ ██      ██   ██ ██
+  ██████   ██████  ██ ███████ ██ ██      ██   ██ ██
+</pre>
 
 <div class="card">
 <div class="small">Discord</div>
 <div>6uiltrip</div>
+<div class="small">innocent until proven guilty.</div>
 <a class="btn" href="https://discord.gg/eNJPy55MQX">Join Server</a>
 </div>
 
 <div class="card">
-<div class="small">Live Crypto Prices</div>
-<div class="ticker" id="prices">Loading...</div>
+<div class="small">Crypto Wallets</div>
+
+<!-- BTC -->
+<div class="wallet">
+<svg class="icon" viewBox="0 0 24 24"><path d="M11 17h1v2h2v-2h1a3 3 0 0 0 0-6h-4V9h4a3 3 0 0 0 0-6h-1V1h-2v2h-1a3 3 0 0 0 0 6h4v2h-4a3 3 0 0 0 0 6z"/></svg>
+<code>bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr</code>
 </div>
 
-<div class="card">
-<div class="small">Wallets</div>
-
+<!-- ETH -->
 <div class="wallet">
-<div>BTC</div>
-<img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr">
-<code id="btc">bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr</code>
-<button class="copy" onclick="copy('btc',this)">Copy</button>
+<svg class="icon" viewBox="0 0 24 24"><path d="M12 2l4 7-4 2-4-2 4-7zm0 20l-4-7 4 2 4-2-4 7z"/></svg>
+<code>0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb</code>
 </div>
 
+<!-- SOL -->
 <div class="wallet">
-<div>ETH</div>
-<img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb">
-<code id="eth">0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb</code>
-<button class="copy" onclick="copy('eth',this)">Copy</button>
+<svg class="icon" viewBox="0 0 24 24">
+<path d="M4 17h16l-3 3H1l3-3zm0-5h16l-3 3H1l3-3zm0-5h16l-3 3H1l3-3z"/>
+</svg>
+<code>CZdsusmB3VH17ML9vovnStep5KSEZWS4fsvkPKJgdvhN</code>
 </div>
 
+<!-- LTC -->
 <div class="wallet">
-<div>SOL</div>
-<img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=CZdsusmB3VH17ML9vovnStep5KSEZWS4fsvkPKJgdvhN">
-<code id="sol">CZdsusmB3VH17ML9vovnStep5KSEZWS4fsvkPKJgdvhN</code>
-<button class="copy" onclick="copy('sol',this)">Copy</button>
-</div>
-
-<div class="wallet">
-<div>LTC</div>
-<img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4">
-<code id="ltc">Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4</code>
-<button class="copy" onclick="copy('ltc',this)">Copy</button>
+<svg class="icon" viewBox="0 0 24 24"><path d="M12 2l3 10h-6l3-10zm0 20l-3-10h6l-3 10z"/></svg>
+<code>Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4</code>
 </div>
 
 </div>
@@ -183,23 +188,7 @@ margin-top:8px;
 
 <script>
 
-/* TYPE EFFECT */
-const t="6UILTRIP";
-let i=0;
-setInterval(()=>{
-document.getElementById("type").innerText=t.slice(0,i++);
-if(i>t.length)i=0;
-},200);
-
-/* SAFE COPY FIX */
-function copy(id,btn){
-const el=document.getElementById(id);
-navigator.clipboard.writeText(el.innerText);
-btn.innerText="Copied";
-setTimeout(()=>btn.innerText="Copy",1200);
-}
-
-/* MATRIX (RESIZE SAFE) */
+/* MATRIX UPGRADED */
 const c=document.getElementById("matrix");
 const ctx=c.getContext("2d");
 
@@ -210,54 +199,42 @@ c.height=window.innerHeight;
 resize();
 window.addEventListener("resize",resize);
 
-const chars="BTCETHSOLLTC0123456789#$%";
+const chars="01BTCETHSOL#@$%Ξλ";
 const size=14;
-let cols=()=>Math.floor(c.width/size);
+
 let drops=[];
 
-function initDrops(){
-drops=Array.from({length:cols()},()=>1);
+function init(){
+drops=Array(Math.floor(c.width/size)).fill(1);
 }
-initDrops();
-
-window.addEventListener("resize",initDrops);
+init();
+window.addEventListener("resize",init);
 
 function draw(){
-ctx.fillStyle="rgba(0,0,0,0.08)";
+ctx.fillStyle="rgba(0,0,0,0.07)";
 ctx.fillRect(0,0,c.width,c.height);
 
 ctx.fillStyle="#00ff88";
 ctx.font=size+"px monospace";
 
-for(let x=0;x<drops.length;x++){
-const ch=chars[Math.floor(Math.random()*chars.length)];
-ctx.fillText(ch,x*size,drops[x]*size);
+for(let i=0;i<drops.length;i++){
 
-if(drops[x]*size>c.height && Math.random()>0.98){
-drops[x]=0;
+const char=chars[Math.floor(Math.random()*chars.length)];
+
+ctx.fillText(char,i*size,drops[i]*size);
+
+/* more “alive” rain */
+if(drops[i]*size>c.height && Math.random()>0.97){
+drops[i]=0;
 }
-drops[x]++;
+
+drops[i]+=Math.random()*1.3;
 }
 }
 
-setInterval(draw,40);
-
-/* PRICES (SAFE) */
-async function loadPrices(){
-try{
-const r=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,litecoin&vs_currencies=usd");
-const d=await r.json();
-
-document.getElementById("prices").innerText=
-`BTC $${d?.bitcoin?.usd ?? "?"} | ETH $${d?.ethereum?.usd ?? "?"} | SOL $${d?.solana?.usd ?? "?"} | LTC $${d?.litecoin?.usd ?? "?"}`;
-}catch(e){
-document.getElementById("prices").innerText="Price feed offline";
-}
-}
-loadPrices();
-setInterval(loadPrices,15000);
+setInterval(draw,33);
 
 </script>
 
 </body>
-</html></html></html></html></html></html></html>
+</html></html></html></html></html></html></html></html>
