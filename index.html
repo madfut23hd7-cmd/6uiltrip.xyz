@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>6uiltrip.xyz</title>
+
 <style>
 *{
 margin:0;
@@ -11,17 +12,21 @@ padding:0;
 box-sizing:border-box;
 font-family:monospace;
 }
+
 body{
 background:#000;
 overflow-x:hidden;
 color:#00ff88;
 }
+
+/* MATRIX BACKGROUND */
 canvas{
 position:fixed;
 top:0;
 left:0;
 z-index:-2;
 }
+
 #particles{
 position:fixed;
 width:100%;
@@ -29,21 +34,21 @@ height:100%;
 z-index:-1;
 pointer-events:none;
 }
+
 .container{
 max-width:900px;
 margin:auto;
 padding:40px 20px;
 text-align:center;
 }
+
 .logo{
 font-size:4rem;
 font-weight:bold;
 animation:glitch 2s infinite;
-text-shadow:
-0 0 10px #00ff88,
-0 0 20px #00ff88,
-0 0 40px #00ff88;
+text-shadow:0 0 10px #00ff88,0 0 20px #00ff88,0 0 40px #00ff88;
 }
+
 @keyframes glitch{
 0%{transform:translate(0)}
 20%{transform:translate(-2px,2px)}
@@ -52,11 +57,14 @@ text-shadow:
 80%{transform:translate(2px,2px)}
 100%{transform:translate(0)}
 }
+
 .typing{
 margin-top:20px;
 font-size:1.2rem;
 height:40px;
 }
+
+/* CARD */
 .card{
 margin-top:30px;
 padding:20px;
@@ -65,6 +73,8 @@ border:1px solid #00ff88;
 border-radius:15px;
 box-shadow:0 0 25px #00ff88;
 }
+
+/* BUTTON */
 .btn{
 display:block;
 margin:10px auto;
@@ -75,123 +85,233 @@ color:#00ff88;
 border:1px solid #00ff88;
 transition:.3s;
 }
+
 .btn:hover{
 background:#00ff88;
 color:black;
 }
+
+/* TERMINAL */
 .terminal{
 text-align:left;
 background:black;
 padding:15px;
-height:250px;
+height:200px;
 overflow:auto;
 margin-top:20px;
 border:1px solid #00ff88;
 }
+
+/* WALLET SECTION */
+.wallets{
+margin-top:25px;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.wallet{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:12px;
+border:1px solid #00ff88;
+border-radius:10px;
+background:rgba(0,0,0,0.6);
+box-shadow:0 0 10px rgba(0,255,136,0.2);
+}
+
+.wallet img{
+width:26px;
+height:26px;
+filter:invert(1) sepia(1) saturate(5) hue-rotate(90deg);
+}
+
+.wallet-info{
+flex:1;
+text-align:left;
+margin-left:10px;
+display:flex;
+flex-direction:column;
+}
+
+.wallet-info span{
+font-weight:bold;
+letter-spacing:1px;
+}
+
+.wallet code{
+font-size:0.8rem;
+opacity:0.85;
+word-break:break-all;
+}
+
+.wallet button{
+background:none;
+border:1px solid #00ff88;
+color:#00ff88;
+padding:6px 10px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.wallet button:hover{
+background:#00ff88;
+color:black;
+}
+
 </style>
 </head>
+
 <body>
+
 <canvas id="matrix"></canvas>
 <canvas id="particles"></canvas>
 
 <div class="container">
-<div class="logo">
-6UILTRIP
-</div>
+
+<div class="logo">6UILTRIP</div>
 
 <div class="typing" id="typing"></div>
 
 <div class="card">
+
 <p>Discord: 6uiltrip</p>
-<p>innocent until proven guilty.</p>
+<p>status: innocent until proven guilty.</p>
 
 <a class="btn" href="https://discord.gg/larp">
 Join Discord Server
 </a>
 
+<!-- TERMINAL -->
 <div class="terminal" id="terminal"></div>
+
+<!-- WALLET SECTION -->
+<div class="wallets">
+
+  <div class="wallet">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/bitcoin.svg">
+    <div class="wallet-info">
+      <span>Bitcoin</span>
+      <code id="btc">bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr</code>
+    </div>
+    <button onclick="copy('btc')">Copy</button>
+  </div>
+
+  <div class="wallet">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/ethereum.svg">
+    <div class="wallet-info">
+      <span>Ethereum</span>
+      <code id="eth">0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb</code>
+    </div>
+    <button onclick="copy('eth')">Copy</button>
+  </div>
+
+  <div class="wallet">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/solana.svg">
+    <div class="wallet-info">
+      <span>Solana</span>
+      <code id="sol">CZdsusmB3VH17ML9vovnStep5KSEZWS4fsvkPKJgdvhN</code>
+    </div>
+    <button onclick="copy('sol')">Copy</button>
+  </div>
+
+  <div class="wallet">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/litecoin.svg">
+    <div class="wallet-info">
+      <span>Litecoin</span>
+      <code id="ltc">Lb6gfXaybd1WuHbxhd214hv7LdkBam4qW4</code>
+    </div>
+    <button onclick="copy('ltc')">Copy</button>
+  </div>
+
+</div>
+
 </div>
 </div>
 
 <script>
+
+/* TYPE EFFECT */
 const text=[
 "ACCESS GRANTED",
-"CONNECTED TO NETWORK",
-"CRYPTO MODE ENABLED",
-"DISCORD: 6uiltrip"
+"CONNECTING TO NODE...",
+"ENCRYPTION ACTIVE",
+"CRYPTO WALLET SYNCED"
 ];
-let line=0;
-let char=0;
+
+let line=0,char=0;
+
 function type(){
 if(char<text[line].length){
-document.getElementById("typing")
-.innerHTML+=text[line][char];
+document.getElementById("typing").innerHTML+=text[line][char];
 char++;
-setTimeout(type,80);
+setTimeout(type,60);
 }else{
 setTimeout(()=>{
-document.getElementById("typing")
-.innerHTML="";
+document.getElementById("typing").innerHTML="";
 line=(line+1)%text.length;
 char=0;
 type();
-},1500);
+},1200);
 }
 }
 type();
 
-const terminal=
-document.getElementById("terminal");
+/* TERMINAL */
+const terminal=document.getElementById("terminal");
 
 const commands=[
-"> initializing...",
-"> loading profile...",
-"> connecting to discord...",
-"> syncing network...",
-"> access granted...",
-"> connected."
+"> boot sequence initiated...",
+"> hashing network...",
+"> blockchain sync...",
+"> wallet scan complete...",
+"> system online."
 ];
 
 let i=0;
-setInterval(()=>{
-terminal.innerHTML+=
-commands[i%commands.length]
-+"<br>";
-terminal.scrollTop=
-terminal.scrollHeight;
-i++;
-},2000);
 
-const canvas=
-document.getElementById("matrix");
-const ctx=
-canvas.getContext("2d");
+setInterval(()=>{
+terminal.innerHTML+=commands[i%commands.length]+"<br>";
+terminal.scrollTop=terminal.scrollHeight;
+i++;
+},1800);
+
+/* COPY FUNCTION */
+function copy(id){
+const text=document.getElementById(id).innerText;
+navigator.clipboard.writeText(text);
+
+event.target.innerText="Copied";
+setTimeout(()=>event.target.innerText="Copy",1200);
+}
+
+/* MATRIX RAIN (CRYPTO THEMED) */
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
 
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
-const chars="01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const size=16;
+const symbols="01ABCDEF#@$%BTCETHSOLLTC<>[]{}";
+const size=14;
 const cols=canvas.width/size;
-const drops=[];
 
-for(let x=0;x<cols;x++){
-drops[x]=1;
-}
+const drops=Array.from({length:cols},()=>1);
 
 function draw(){
-ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillStyle="rgba(0,0,0,0.08)";
 ctx.fillRect(0,0,canvas.width,canvas.height);
 
 ctx.fillStyle="#00ff88";
 ctx.font=size+"px monospace";
 
 for(let i=0;i<drops.length;i++){
-let txt=chars[Math.floor(Math.random()*chars.length)];
+const char=symbols[Math.floor(Math.random()*symbols.length)];
 
-ctx.fillText(txt,i*size,drops[i]*size);
+ctx.fillText(char,i*size,drops[i]*size);
 
-if(drops[i]*size>canvas.height && Math.random()>0.975){
+if(drops[i]*size>canvas.height && Math.random()>0.98){
 drops[i]=0;
 }
 
@@ -199,8 +319,9 @@ drops[i]++;
 }
 }
 
-setInterval(draw,35);
+setInterval(draw,40);
 
+/* PARTICLES */
 const pCanvas=document.getElementById("particles");
 const pCtx=pCanvas.getContext("2d");
 
@@ -209,7 +330,7 @@ pCanvas.height=window.innerHeight;
 
 const particles=[];
 
-for(let i=0;i<100;i++){
+for(let i=0;i<120;i++){
 particles.push({
 x:Math.random()*pCanvas.width,
 y:Math.random()*pCanvas.height,
@@ -217,11 +338,11 @@ r:Math.random()*2
 });
 }
 
-function animateParticles(){
+function animate(){
 pCtx.clearRect(0,0,pCanvas.width,pCanvas.height);
 
 particles.forEach(p=>{
-p.y-=0.5;
+p.y-=0.4;
 if(p.y<0)p.y=pCanvas.height;
 
 pCtx.beginPath();
@@ -230,10 +351,11 @@ pCtx.fillStyle="#00ff88";
 pCtx.fill();
 });
 
-requestAnimationFrame(animateParticles);
+requestAnimationFrame(animate);
 }
+animate();
 
-animateParticles();
 </script>
+
 </body>
-</html>
+</html></html>
