@@ -94,10 +94,19 @@ justify-content:space-between;
 align-items:center;
 }
 
-/* TEXT */
+/* TEXT & LOGO LAYOUT */
 .label{
 font-size:13px;
 font-weight:bold;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.crypto-icon {
+width: 18px;
+height: 18px;
+object-fit: contain;
 }
 
 .price{
@@ -145,37 +154,45 @@ color:#000;
 <a class="btn" href="https://discord.gg/eNJPy55MQX">Join LarpX</a>
 </div>
 
-<!-- BTC -->
 <div class="card wallet">
 <div class="row">
-<div class="label">BTC</div>
+<div class="label">
+<img src="https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/svg/color/btc.svg" alt="BTC" class="crypto-icon">
+BTC
+</div>
 <div class="price" id="btc">Loading...</div>
 </div>
 <button class="copy" onclick="copy('btcAddr')">Copy BTC Wallet</button>
 </div>
 
-<!-- ETH -->
 <div class="card wallet">
 <div class="row">
-<div class="label">ETH</div>
+<div class="label">
+<img src="https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/svg/color/eth.svg" alt="ETH" class="crypto-icon">
+ETH
+</div>
 <div class="price" id="eth">Loading...</div>
 </div>
 <button class="copy" onclick="copy('ethAddr')">Copy ETH Wallet</button>
 </div>
 
-<!-- SOL -->
 <div class="card wallet">
 <div class="row">
-<div class="label">SOL</div>
+<div class="label">
+<img src="https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/svg/color/sol.svg" alt="SOL" class="crypto-icon">
+SOL
+</div>
 <div class="price" id="sol">Loading...</div>
 </div>
 <button class="copy" onclick="copy('solAddr')">Copy SOL Wallet</button>
 </div>
 
-<!-- LTC -->
 <div class="card wallet">
 <div class="row">
-<div class="label">LTC</div>
+<div class="label">
+<img src="https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/svg/color/ltc.svg" alt="LTC" class="crypto-icon">
+LTC
+</div>
 <div class="price" id="ltc">Loading...</div>
 </div>
 <button class="copy" onclick="copy('ltcAddr')">Copy LTC Wallet</button>
@@ -183,7 +200,6 @@ color:#000;
 
 </div>
 
-<!-- HIDDEN ADDRESSES -->
 <div style="display:none">
 <div id="btcAddr">bc1qy6zhy03nv6rw7s4nrt2c453het78mt4wy9amtr</div>
 <div id="ethAddr">0x867437e1bBEAE36F6fFa36827B618e3aDaa249Bb</div>
@@ -260,4 +276,5 @@ navigator.clipboard.writeText(text);
 </script>
 
 </body>
+</html>
 </html></html></html></html></html></html></html></html></html></html>
